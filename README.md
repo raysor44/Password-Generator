@@ -1,13 +1,5 @@
 # Password Generator
-Simple password generator created in python, password generator doesn't have any characters amount limit.
-Password is generated using letters, numbers and special characters in random positions.
-
-# Required Modules
-Password Generator requires some not default installed modules to work, you can install those modules with these commands.
-``` python
-pip install termcolor
-pip install colorama
-```
+Simple password generator created in python.
 
 # Arguments
 |Short Argument|Full Argument            |Description                                  |
@@ -19,6 +11,6 @@ pip install colorama
 |-sc           |--exclude_scharacters    |Excludes Special Characters from Password    |
 
 # How to run and use
-1. Run: 'python PasswordGenerator.py' in terminal
-2. Password Generator will now ask you to type length of your password, you can use any value you want.
-3. Your password will be displayed alongside with letters, numbers and special characters used in generating password.
+1. Run: 'python PasswordGenerator.py' in terminal or 'python PasswordGenerator.py -h' to display help about arguments.
+2. Password Generator will now ask you to type length of your password, maximum value is 256.
+3. Your password will be generated and displayed.

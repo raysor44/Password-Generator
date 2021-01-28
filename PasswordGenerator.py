@@ -47,8 +47,12 @@ class Generating:
             sys.exit(0)
 
         try:
-            password_length = int(input("Enter password length: "))
+            password_length = int(input("Enter password length (Max. 256): "))
+            if password_length > 256:
+                print("Password is too long!")
+                sys.exit(0)
         except ValueError:
+            print("Wrong value, try again!")
             sys.exit(0)
 
         print("Generated Password: ", end="")
