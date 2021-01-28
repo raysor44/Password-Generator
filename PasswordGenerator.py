@@ -3,23 +3,11 @@ import random
 import string
 import sys
 
-from termcolor import colored
+from termcolor import colored as col
 from colorama import init 
 
 
-##################################
-
-parser = argparse.ArgumentParser()
-parser.add_argument("-n", "--exclude_numbers", action="store_true", help="Exclude Numbers")
-parser.add_argument("-ll", "--exclude_lletters", action="store_true", help="Exclude Lowercase Letters")
-parser.add_argument("-ul", "--exclude_uletters", action="store_true", help="Exclude Uppercase Letters")
-parser.add_argument("-sc", "--exclude_scharacters", action="store_true", help="Exclude Special Characters")
-args = parser.parse_args()
-
-##################################
-
-
-def askForPasswordLength():
+def ask_for_password_length():
     global passwordLength
 
     try:
@@ -28,74 +16,73 @@ def askForPasswordLength():
         print("Invalid Value, try again"); sys.exit(0)
 
 
+class ArgumentParser:
+    global args
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-n", "--exclude_numbers", action="store_true", help="Exclude Numbers")
+    parser.add_argument("-ll", "--exclude_lletters", action="store_true", help="Exclude Lowercase Letters")
+    parser.add_argument("-ul", "--exclude_uletters", action="store_true", help="Exclude Uppercase Letters")
+    parser.add_argument("-sc", "--exclude_scharacters", action="store_true", help="Exclude Special Characters")
+    args = parser.parse_args()
+
+
 class Generating:
-    def randomNumbers(self):
-        global usedNumbers
-        usedNumbers = str(random.randint(0, 1000 * 1000))
-
+    def __init__(self, digits, ascii_lowercase, ascii_uppercase, punctuation):
+        self.digits = digits
+        self.ascii_lowercase = ascii_lowercase
+        self.ascii_uppercase = ascii_uppercase
+        self.punctuation = punctuation
+        self.choices = [digits, ascii_lowercase, ascii_uppercase, punctuation]
+    
+    def random_numbers(self):
         if args.exclude_numbers:
-            print("\nUsed Numbers:", colored("None (Disabled)", "red"))
-        else: 
-            print("\nUsed Numbers:", colored(usedNumbers, "yellow"))
-
-    def randomLowercaseLetters(self):
-        global usedLowercaseLetters
-        usedLowercaseLetters = string.ascii_lowercase
-
-        if args.exclude_lletters:
-            print("Used Lowercase Letters:", colored("None (Disabled)", "red"))
-        else:
-            print("Used Lowercase Letters:", colored(usedLowercaseLetters, "yellow"))
-        
-    def randomUppercaseLetters(self):
-        global usedUppercaseLetters
-        usedUppercaseLetters = string.ascii_uppercase
-
-        if args.exclude_uletters:
-            print("Used Uppercase Letters:", colored("None (Disabled)", "red"))
-        else:
-            print("Used Uppercase Letters:", colored(usedUppercaseLetters, "yellow"))
-
-    def randomSpecialCharacters(self):
-        global usedSpecialCharacters
-        usedSpecialCharacters = ["!", "@", "#", "$", "%", "^", "&", "*"]        
-
-        if args.exclude_scharacters:
-            print("Used Special Characters:", colored("None (Disabled)", "red"))
-        else:
-            print("Used Special Characters:", colored(usedSpecialCharacters, "yellow"))
-
-
-    def generatePassword(self):
-        choices = [usedNumbers, usedLowercaseLetters, usedUppercaseLetters, usedSpecialCharacters]
-
-        if args.exclude_numbers:
-            choices.remove(usedNumbers)
-        
-        if args.exclude_lletters:
-            choices.remove(usedLowercaseLetters)
+            self.choices.remove(self.digits)
             
+            print("Used Numbers:", col("None (Disabled)", "red"))
+        else: 
+            print("Used Numbers:", col(self.digits, "yellow"))
+
+    def random_lowercase_letters(self):
+        if args.exclude_lletters:
+            self.choices.remove(self.ascii_lowercase)
+            
+            print("Used Lowercase Letters:", col("None (Disabled)", "red"))
+        else: 
+            print("Used Lowercase Letters:", col(self.ascii_lowercase, "yellow"))
+            
+    def random_uppercase_letters(self):
         if args.exclude_uletters:
-            choices.remove(usedUppercaseLetters)
-        
+            self.choices.remove(self.ascii_uppercase)
+            
+            print("Used Uppercase Letters:", col("None (Disabled)", "red"))
+        else: 
+            print("Used Uppercase Letters:", col(self.ascii_uppercase, "yellow"))
+
+    def random_special_characters(self):
         if args.exclude_scharacters:
-            choices.remove(usedSpecialCharacters)
+            self.choices.remove(self.punctuation)
+            
+            print("Used Special Characters:", col("None (Disabled)", "red"))
+        else: 
+            print("Used Special Characters:", col(self.punctuation, "yellow"))
+            
+    def generate_password(self):
+        if len(self.choices) == 0: # Check if every item in 'choices' list is excluded.
+            print("Password can't be generated"); sys.exit(0)
 
-        if len(choices) == 0: # Check if every item in 'choices' list is excluded.
-            print("Password will not be generated"); sys.exit(0)
-
-        print("Generated Password:", end=" ")
+        print("Password Generator:", end=" ")
 
         for i in range(passwordLength):
-            print(random.choice(random.choice(choices)), end="")
+            print(random.choice(random.choice(self.choices)), end="")
 
 
 init() # Initialisation of Colorama Module
-askForPasswordLength()
+ask_for_password_length()
 
-p1 = Generating()
-p1.randomNumbers()
-p1.randomLowercaseLetters()
-p1.randomUppercaseLetters()
-p1.randomSpecialCharacters()
-p1.generatePassword()
+p1 = Generating(string.digits, string.ascii_lowercase, string.ascii_uppercase, string.punctuation)
+p1.random_numbers()
+p1.random_lowercase_letters()
+p1.random_uppercase_letters()
+p1.random_special_characters()
+p1.generate_password()
