@@ -1,5 +1,5 @@
 # Password Generator
-Simple password generator created in python.
+Simple CLI password generator created in python.
 
 # Arguments
 |Short Argument|Full Argument            |Description                                  |
@@ -9,6 +9,9 @@ Simple password generator created in python.
 |**-ll**       |**--exclude_lletters**   |Excludes **Lowercase** Letters from Password |
 |**-ul**       |**--exclude_uletters**   |Excludes **Uppercase** Letters from Password |
 |-sc           |--exclude_scharacters    |Excludes Special Characters from Password    |
+
+# Compatible Systems
+Script works on Windows, Linux and probably MacOS.
 
 # How to run and use
 1. Run: 'python PasswordGenerator.py' in terminal or 'python PasswordGenerator.py -h' to display help about arguments.
